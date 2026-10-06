@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Events</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Available Events</h2>
+    <div id="eventsList" class="card-grid"></div>
+    <br>
+    <a href="index.html" class="btn">Back to Home</a>
+  </div>
+
+  <script>
+    async function loadEvents() {
+      const res = await fetch('/api/events');
+      const events = await res.json();
+      const list = document.getElementById('eventsList');
+      list.innerHTML = events.length === 0 ? '<p>No events found.</p>' : '';
+
+      events.forEach(evt => {
+        list.innerHTML += `
+          <div class="card">
+            <h3>${evt.title}</h3>
+            <p><strong>Date:</strong> ${evt.date} | <strong>Time:</strong> ${evt.time}</p>
+            <p>${evt.description}</p>
+            <a href="register.html" class="btn">Register Now</a>
+          </div>
+        `;
+      });
+    }
+    loadEvents();
+  </script>
+</body>
+</html>
