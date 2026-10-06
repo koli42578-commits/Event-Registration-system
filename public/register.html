@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container form-container">
+    <h2>Register for an Event</h2>
+    <form id="regForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email Address" required>
+      <input type="tel" id="phone" placeholder="Phone Number" required>
+      <input type="text" id="eventTitle" placeholder="Event Name" required>
+      <button type="submit" class="btn">Submit Registration</button>
+    </form>
+    <p id="msg"></p>
+    <br>
+    <a href="index.html">Back to Home</a>
+  </div>
+
+  <script>
+    document.getElementById('regForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        eventTitle: document.getElementById('eventTitle').value
+      };
+
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        document.getElementById('msg').innerText = "Registration Successful!";
+        document.getElementById('regForm').reset();
+      } else {
+        document.getElementById('msg').innerText = "Registration Failed!";
+      }
+    });
+  </script>
+</body>
+</html>
